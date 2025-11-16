@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kostenlose Demo-Webseite | UNLEASH</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'FK Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #FFFFFF;
+            background-color: #121212;
+            font-variant-numeric: tabular-nums;
+            position: relative;
+        }
+
+        /* Global Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #121212 0%, #1E1E1E 50%, #121212 100%);
+            background-image: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 16px,
+                    rgba(255, 81, 0, 0.12) 16px,
+                    rgba(255, 81, 0, 0.12) 17px
+                );
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* Variables */
+        :root {
+            --color-primary: #FF5100;
+            --color-bg-primary: #121212;
+            --color-bg-secondary: #1E1E1E;
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #8E8E8E;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 8px;
+        }
+
+        .header__container {
+            max-width: 1440px;
+            margin: 0 auto;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid #1E1E1E;
+            border-radius: 16px;
+            padding: 0 24px;
+        }
+
+        .header__content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+
+        .logo__image {
+            height: 32px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo__image {
+            transform: scale(1.05);
+        }
+
+        .nav__button--primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary);
+            color: var(--color-text-primary);
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .nav__button--primary:hover {
+            background: #E64600;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero__content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 81, 0, 0.1);
+            border: 1px solid rgba(255, 81, 0, 0.3);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 32px;
+            font-size: 14px;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .hero__headline {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero__highlight {
+            color: var(--color-primary);
+        }
+
+        .hero__description {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.7;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero__cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .hero__button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--color-primary);
+            color: var(--color-text-primary);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .hero__button:hover {
+            background: #E64600;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 81, 0, 0.3);
+        }
+
+        .hero__trust {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero__trust svg {
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .hero__scroll-link {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .hero__scroll-link:hover {
+            color: var(--color-primary);
+            transform: translateY(4px);
+        }
+
+        .hero__scroll-link svg {
+            transition: transform 0.3s ease;
+        }
+
+        .hero__scroll-link:hover svg {
+            transform: translateY(4px);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: transparent;
+        }
+
+        .benefits__header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .benefits__badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: var(--color-text-primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .benefits__title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .benefits__description {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .benefits__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid #2A2A2A;
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary);
+            box-shadow: 0 20px 50px rgba(255, 81, 0, 0.2);
+        }
+
+        .benefit-card__icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 81, 0, 0.1);
+            border: 2px solid rgba(255, 81, 0, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .benefit-card__icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--color-primary);
+        }
+
+        .benefit-card__title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .benefit-card__text {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Client Trust Section */
+        .clients__trust {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .clients__trust-text {
+            margin-bottom: 40px;
+        }
+
+        .clients__stats-text {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+        }
+
+        .clients__stats-text strong {
+            color: var(--color-text-primary);
+        }
+
+        .clients__logos {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 140px;
+            align-items: center;
+            justify-items: center;
+            padding: 0 40px;
+        }
+
+        .logo-slot {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .client-logo {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .client-logo.active {
+            opacity: 0.7;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .client-logo img {
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            transition: none;
+        }
+
+        .client-logo:hover img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Demo Form Section */
+        .demo-form {
+            padding: 80px 0;
+            background: transparent;
+        }
+
+        .demo-form__container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--color-bg-secondary);
+            border: 1px solid #2A2A2A;
+            border-radius: 24px;
+            padding: 60px 80px;
+        }
+
+        .demo-form__header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-form__badge {
+            display: inline-block;
+            background: rgba(255, 81, 0, 0.2);
+            color: var(--color-primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .demo-form__title {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .demo-form__description {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+        }
+
+        .form__required-note {
+            grid-column: 1 / -1;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin: 0 0 8px 0;
+            font-style: italic;
+            text-align: right;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form__group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form__group--full {
+            grid-column: 1 / -1;
+        }
+
+        .form__label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+        }
+
+        .form__input,
+        .form__textarea {
+            background: var(--color-bg-primary);
+            border: 1px solid #2A2A2A;
+            border-radius: 8px;
+            padding: 14px 16px;
+            color: var(--color-text-primary);
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form__input:focus,
+        .form__textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: rgba(255, 81, 0, 0.05);
+        }
+
+        .form__textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form__submit {
+            background: var(--color-primary);
+            color: var(--color-text-primary);
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            grid-column: 1 / -1;
+        }
+
+        .form__submit:hover {
+            background: #E64600;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 81, 0, 0.3);
+        }
+
+        .form__privacy {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            text-align: center;
+            margin-top: 8px;
+            grid-column: 1 / -1;
+        }
+
+        .form__privacy a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .form__privacy a:hover {
+            text-decoration: underline;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
+            background: transparent;
+        }
+
+        .faq__content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .faq__header {
+            position: sticky;
+            top: 120px;
+            align-self: flex-start;
+        }
+
+        .faq__title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--color-text-primary);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .faq__title-highlight {
+            color: var(--color-text-primary);
+            position: relative;
+        }
+
+        .faq__title-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-primary);
+            transform: skewX(-45deg);
+            transform-origin: left;
+        }
+
+        .faq__description {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            max-width: 400px;
+        }
+
+        .faq__questions {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #2A2A2A;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item__question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px 0;
+            background: none;
+            border: none;
+            color: var(--color-text-primary);
+            font-size: 1.125rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item__question:hover {
+            color: var(--color-primary);
+        }
+
+        .faq-item__question span:first-child {
+            flex: 1;
+            padding-right: 24px;
+        }
+
+        .faq-item__icon {
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--color-text-secondary);
+            transition: all 0.3s ease;
+            transform: rotate(0deg);
+        }
+
+        .faq-item__question:hover .faq-item__icon {
+            color: var(--color-primary);
+        }
+
+        .faq-item__question[aria-expanded="true"] .faq-item__icon {
+            transform: rotate(45deg);
+            color: var(--color-primary);
+        }
+
+        .faq-item__answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .faq-item__answer.open {
+            max-height: 400px;
+            opacity: 1;
+            padding-bottom: 32px;
+        }
+
+        .faq-item__answer p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 0 40px;
+            background: transparent;
+        }
+
+        .footer__container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer__content {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid #1E1E1E;
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .footer__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer__brand {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-logo__image {
+            height: 28px;
+            width: auto;
+        }
+
+        .footer__tagline {
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        .footer__bottom {
+            border-top: 1px solid #2A2A2A;
+            padding-top: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: end;
+        }
+
+        .footer__copyright {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .footer__legal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: flex-end;
+        }
+
+        .footer__legal a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer__legal a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .benefits__grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .clients__logos {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                height: 100px;
+                padding: 0 20px;
+            }
+
+            .client-logo {
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .header__container {
+                padding: 0 20px;
+            }
+
+            .hero {
+                padding: 140px 0 60px;
+            }
+
+            .hero__headline {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .hero__description {
+                font-size: 1rem;
+            }
+
+            .hero__cta-group {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+
+            .hero__button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero__trust {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .benefits,
+            .comparison,
+            .demo-form {
+                padding: 60px 0;
+            }
+
+            .demo-form__container {
+                padding: 40px 24px;
+            }
+
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+            .form__required-note {
+                grid-column: 1;
+                text-align: left;
+            }
+
+            .form__group--full {
+                grid-column: 1;
+            }
+
+            .form__submit,
+            .form__privacy {
+                grid-column: 1;
+            }
+
+            .faq__content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .faq__header {
+                position: relative;
+                top: 0;
+                text-align: center;
+            }
+
+            .faq__title {
+                font-size: clamp(2rem, 8vw, 2.8rem);
+                margin-bottom: 20px;
+            }
+
+            .faq__description {
+                max-width: 100%;
+            }
+
+            .faq-item__question {
+                padding: 24px 0;
+                font-size: 16px;
+            }
+
+            .faq-item__question span:first-child {
+                padding-right: 16px;
+            }
+
+            .faq-item__icon {
+                font-size: 20px;
+            }
+
+            .footer__bottom {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer__legal {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__container">
+            <div class="header__content">
+                <a href="index.html" class="logo">
+                    <img src="bilder/logos/unleash.svg" alt="UNLEASH" class="logo__image">
+                </a>
+                <a href="#demo-formular" class="nav__button--primary">Demo anfragen</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero__content">
+                <div class="hero__badge">
+                    Ihre Webdesign-Agentur für mehr Wirkung
+                </div>
+                
+                <h1 class="hero__headline">
+                    Entdecke das volle Potenzial<br>
+                    <span class="hero__highlight">deiner Webseite</span>
+                </h1>
+                
+                <p class="hero__description">
+                    Wir erstellen dir eine professionelle Demo-Version deiner aktuellen Webseite – komplett kostenlos. So siehst du sofort, wie viel mehr möglich ist.
+                </p>
+                
+                <div class="hero__cta-group">
+                    <a href="#demo-formular" class="hero__button">
+                        Kostenlose Demo anfragen
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    
+                    <div class="hero__trust">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        100% kostenlos
+                    </div>
+                </div>
+
+                <a href="#vorteile" class="hero__scroll-link">
+                    Mehr erfahren
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M19 12l-7 7-7-7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="vorteile">
+        <div class="container">
+            <div class="benefits__header">
+                <div class="benefits__badge">DEINE VORTEILE</div>
+                <h2 class="benefits__title">Warum eine kostenlose Demo?</h2>
+                <p class="benefits__description">
+                    Erlebe selbst, wie deine Webseite mit modernem Design und optimierter Performance aussehen könnte
+                </p>
+            </div>
+
+            <div class="benefits__grid">
+                <div class="benefit-card">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </div>
+                    <h3 class="benefit-card__title">Direkter Vergleich</h3>
+                    <p class="benefit-card__text">
+                        Sieh selbst den Unterschied zwischen deiner aktuellen Webseite und dem, was möglich ist
+                    </p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <h3 class="benefit-card__title">Modernes Design</h3>
+                    <p class="benefit-card__text">
+                        Wir zeigen dir, wie deine Webseite mit einem zeitgemäßen, ansprechenden Design aussehen könnte
+                    </p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-card__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3 class="benefit-card__title">Mobile-Optimiert</h3>
+                    <p class="benefit-card__text">
+                        Perfekte Darstellung auf allen Geräten – vom Smartphone bis zum Desktop
+                    </p>
+                </div>
+            </div>
+
+            <!-- Client Trust Section -->
+            <div class="clients__trust">
+                <div class="clients__trust-text">
+                    <span class="clients__stats-text">Über <strong>80+ erfolgreiche Projekte</strong> mit zufriedenen Kunden realisiert.</span>
+                </div>
+                
+                <div class="clients__logos" id="clientLogos">
+                    <!-- Position 1 -->
+                    <div class="logo-slot">
+                        <div class="client-logo active" data-set="1">
+                            <img src="bilder/logos/cyclers.png" alt="Cyclers" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                        <div class="client-logo" data-set="2">
+                            <img src="bilder/logos/charibee.png" alt="Charibee" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                    </div>
+                    
+                    <!-- Position 2 -->
+                    <div class="logo-slot">
+                        <div class="client-logo active" data-set="1">
+                            <img src="bilder/logos/allianz.png" alt="Allianz" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                        <div class="client-logo" data-set="2">
+                            <img src="bilder/logos/akad.svg.png" alt="Akad" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                    </div>
+                    
+                    <!-- Position 3 -->
+                    <div class="logo-slot">
+                        <div class="client-logo active" data-set="1">
+                            <img src="bilder/logos/obama.png" alt="Microsoft" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                        <div class="client-logo" data-set="2">
+                            <img src="bilder/logos/nobu.png" alt="Nobuhiko Asaeda" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                    </div>
+                    
+                    <!-- Position 4 -->
+                    <div class="logo-slot">
+                        <div class="client-logo active" data-set="1">
+                            <img src="bilder/logos/cuvee.svg" alt="La Cuveé" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                        <div class="client-logo" data-set="2">
+                            <img src="bilder/logos/asano.png" alt="Asano" style="max-height: 120px; max-width: 160px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq__content">
+                <div class="faq__header">
+                    <h2 class="faq__title">
+                        Häufig gestellte<br>
+                        <span class="faq__title-highlight">Fragen</span>
+                    </h2>
+                    <p class="faq__description">
+                        Hier findest du Antworten auf die wichtigsten Fragen zur kostenlosen Demo-Webseite.
+                    </p>
+                </div>
+                
+                <div class="faq__questions">
+                    <div class="faq-item">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span>Was genau bekomme ich bei der kostenlosen Demo?</span>
+                            <span class="faq-item__icon">+</span>
+                        </button>
+                        <div class="faq-item__answer">
+                            <p>Du erhältst eine professionell gestaltete Demo-Version einer einzelnen Seite deiner aktuellen Webseite. Wir nehmen deine bestehenden Inhalte und zeigen dir, wie sie mit modernem Design, optimierter Struktur und besserer User Experience aussehen könnten. So kannst du direkt sehen, welches Potenzial in deinem Webauftritt steckt.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span>Ist die Demo wirklich komplett kostenlos?</span>
+                            <span class="faq-item__icon">+</span>
+                        </button>
+                        <div class="faq-item__answer">
+                            <p>Ja, absolut! Die Demo-Webseite ist zu 100% kostenlos und unverbindlich. Es gibt keine versteckten Kosten, keine Verpflichtungen und keinen Kleingedruckten Text. Wir möchten dir einfach zeigen, was möglich ist. Erst wenn du dich für eine vollständige Umsetzung entscheidest, besprechen wir gemeinsam die Kosten für dein individuelles Projekt.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span>Wie lange dauert es, bis ich meine Demo sehe?</span>
+                            <span class="faq-item__icon">+</span>
+                        </button>
+                        <div class="faq-item__answer">
+                            <p>In der Regel erhältst du deine Demo-Webseite innerhalb von 5-7 Werktagen. Nach deiner Anfrage analysieren wir zunächst deine aktuelle Webseite, erstellen ein Konzept und setzen dann die Demo um. Du bekommst einen Link zur Demo-Seite, die du in Ruhe anschauen und mit deiner aktuellen Webseite vergleichen kannst.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span>Muss ich die Demo-Webseite danach umsetzen lassen?</span>
+                            <span class="faq-item__icon">+</span>
+                        </button>
+                        <div class="faq-item__answer">
+                            <p>Nein, überhaupt nicht! Die Demo ist völlig unverbindlich. Du kannst sie dir in Ruhe anschauen und entscheiden, ob du mit uns zusammenarbeiten möchtest. Es gibt keinerlei Verpflichtungen. Wenn dir die Demo gefällt und du mehr erreichen möchtest, erstellen wir dir gerne ein individuelles Angebot für die vollständige Umsetzung deiner neuen Webseite.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span>Für welche Art von Webseiten bietet ihr Demos an?</span>
+                            <span class="faq-item__icon">+</span>
+                        </button>
+                        <div class="faq-item__answer">
+                            <p>Wir erstellen Demos für nahezu jede Art von Webseite – egal ob Unternehmenswebseite, Online-Shop, Portfolio, Landingpage oder Blog. Wichtig ist nur, dass du bereits eine bestehende Webseite hast, die wir als Grundlage nehmen können. So können wir dir den direkten Vergleich zeigen und das volle Potenzial deines digitalen Auftritts aufzeigen.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Form Section -->
+    <section class="demo-form" id="demo-formular">
+        <div class="container">
+            <div class="demo-form__container">
+                <div class="demo-form__header">
+                    <div class="demo-form__badge">KOSTENLOSE DEMO</div>
+                    <h2 class="demo-form__title">Fordere jetzt deine Demo-Webseite an</h2>
+                    <p class="demo-form__description">
+                        Fülle das Formular aus und wir erstellen dir eine kostenlose Demo-Version deiner Webseite
+                    </p>
+                </div>
+
+                <form class="form" action="#" method="POST">
+                    <p class="form__required-note">* Pflichtfeld</p>
+                    
+                    <div class="form__group">
+                        <label for="name" class="form__label">Dein Name *</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            class="form__input" 
+                            placeholder="Max Mustermann"
+                            required
+                        >
+                    </div>
+
+                    <div class="form__group">
+                        <label for="email" class="form__label">E-Mail-Adresse *</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form__input" 
+                            placeholder="max@beispiel.de"
+                            required
+                        >
+                    </div>
+
+                    <div class="form__group form__group--full">
+                        <label for="website" class="form__label">Aktuelle Webseite (falls vorhanden)</label>
+                        <input 
+                            type="url" 
+                            id="website" 
+                            name="website" 
+                            class="form__input" 
+                            placeholder="https://deine-webseite.de"
+                        >
+                    </div>
+
+                    <div class="form__group form__group--full">
+                        <label for="company" class="form__label">Unternehmen</label>
+                        <input 
+                            type="text" 
+                            id="company" 
+                            name="company" 
+                            class="form__input" 
+                            placeholder="Dein Unternehmen"
+                        >
+                    </div>
+
+                    <div class="form__group form__group--full">
+                        <label for="message" class="form__label">Was möchtest du verbessern?</label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            class="form__textarea" 
+                            placeholder="Erzähl uns, was du an deiner aktuellen Webseite verbessern möchtest..."
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="form__submit">
+                        Kostenlose Demo anfragen
+                    </button>
+
+                    <p class="form__privacy">
+                        Mit dem Absenden stimmst du unserer <a href="datenschutz.html">Datenschutzerklärung</a> zu.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__content">
+                <div class="footer__top">
+                    <div class="footer__brand">
+                        <div class="logo">
+                            <img src="bilder/logos/unleash.svg" alt="UNLEASH" class="footer-logo__image">
+                        </div>
+                        <p class="footer__tagline">Kreativer Problemlöser</p>
+                    </div>
+                </div>
+                <div class="footer__bottom">
+                    <div class="footer__copyright">
+                        <div>© 2025 UNLEASH</div>
+                        <div>Alle Rechte vorbehalten</div>
+                    </div>
+                    <div class="footer__legal">
+                        <a href="datenschutz.html">Datenschutz</a>
+                        <a href="impressum.html">Impressum</a>
+                        <a href="agb.html">AGB</a>
+                        <a href="kontakt.html">Kontakt</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('.form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Hier kannst du die Formulardaten verarbeiten
+            const formData = new FormData(this);
+            
+            // Beispiel: Formular-Daten in der Konsole ausgeben
+            console.log('Form submitted with data:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            // Erfolgs-Nachricht anzeigen
+            alert('Vielen Dank! Wir haben deine Anfrage erhalten und melden uns innerhalb von 24 Stunden bei dir.');
+            
+            // Formular zurücksetzen
+            this.reset();
+        });
+
+        // Scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-on-scroll');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.benefit-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Client logo rotation
+        let currentLogoSet = 1;
+        const totalLogoSets = 2;
+
+        function rotateClientLogos() {
+            const allLogos = document.querySelectorAll('.client-logo');
+            const currentLogos = document.querySelectorAll(`.client-logo[data-set="${currentLogoSet}"]`);
+            
+            // Hide current logos
+            currentLogos.forEach(logo => {
+                logo.classList.remove('active');
+            });
+            
+            // Move to next set
+            currentLogoSet = currentLogoSet === totalLogoSets ? 1 : currentLogoSet + 1;
+            
+            // Show new logos after a short delay
+            setTimeout(() => {
+                const newLogos = document.querySelectorAll(`.client-logo[data-set="${currentLogoSet}"]`);
+                newLogos.forEach((logo, index) => {
+                    setTimeout(() => {
+                        logo.classList.add('active');
+                    }, index * 100); // Staggered animation
+                });
+            }, 300);
+        }
+
+        // Start logo rotation
+        function startLogoRotation() {
+            setTimeout(() => {
+                rotateClientLogos();
+                setInterval(rotateClientLogos, 3000);
+            }, 3000);
+        }
+
+        // Initialize client logos animation
+        setTimeout(() => {
+            const firstSetLogos = document.querySelectorAll('.client-logo[data-set="1"]');
+            firstSetLogos.forEach((logo, index) => {
+                setTimeout(() => {
+                    logo.classList.add('active');
+                }, index * 80);
+            });
+            
+            // Start the rotation cycle
+            startLogoRotation();
+        }, 500);
+
+        // FAQ functionality
+        function initFAQ() {
+            const faqItems = document.querySelectorAll('.faq-item__question');
+            
+            faqItems.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isOpen = question.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other FAQ items
+                    faqItems.forEach(otherQuestion => {
+                        if (otherQuestion !== question) {
+                            otherQuestion.setAttribute('aria-expanded', 'false');
+                            otherQuestion.nextElementSibling.classList.remove('open');
+                        }
+                    });
+                    
+                    // Toggle current FAQ item
+                    if (isOpen) {
+                        question.setAttribute('aria-expanded', 'false');
+                        answer.classList.remove('open');
+                    } else {
+                        question.setAttribute('aria-expanded', 'true');
+                        answer.classList.add('open');
+                    }
+                });
+            });
+        }
+
+        // Initialize FAQ
+        initFAQ();
+    </script>
+</body>
+</html>
