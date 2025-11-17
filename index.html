@@ -775,7 +775,25 @@
         .form__textarea:focus {
             outline: none;
             border-color: var(--color-primary);
-            background: rgba(255, 81, 0, 0.05);
+            background: var(--color-bg-primary);
+            box-shadow: 0 0 0 3px rgba(255, 81, 0, 0.1);
+        }
+
+        .form__input:not(:placeholder-shown),
+        .form__textarea:not(:placeholder-shown) {
+            border-color: var(--color-primary);
+            background: var(--color-bg-primary);
+        }
+
+        /* Autocomplete / Autofill Styling */
+        .form__input:-webkit-autofill,
+        .form__input:-webkit-autofill:hover,
+        .form__input:-webkit-autofill:focus,
+        .form__input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px var(--color-bg-primary) inset !important;
+            -webkit-text-fill-color: var(--color-text-primary) !important;
+            border-color: var(--color-primary) !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
 
         .form__textarea {
@@ -1191,11 +1209,7 @@
                     </div>
 
                     <div class="header__center">
-                        <ul class="nav__list">
-                            <li class="nav__item"><a href="team.html" class="nav__link">Unser Team</a></li>
-                            <li class="nav__item"><a href="services.html" class="nav__link">Leistungen</a></li>
-                            <li class="nav__item"><a href="projekte.html" class="nav__link">Projekte</a></li>
-                        </ul>
+                        <!-- Navigation items entfernt -->
                     </div>
 
                     <div class="header__actions">
@@ -1211,11 +1225,6 @@
                 <!-- Mobile Menu -->
                 <div class="mobile-menu">
                     <div class="mobile-menu__content">
-                        <ul class="mobile-nav__list">
-                            <li class="mobile-nav__item"><a href="team.html" class="mobile-nav__link">Unser Team</a></li>
-                            <li class="mobile-nav__item"><a href="services.html" class="mobile-nav__link">Leistungen</a></li>
-                            <li class="mobile-nav__item"><a href="projekte.html" class="mobile-nav__link">Projekte</a></li>
-                        </ul>
                         <div class="mobile-nav__buttons">
                             <a href="#demo-formular" class="nav__button nav__button--primary">Demo anfragen</a>
                         </div>
