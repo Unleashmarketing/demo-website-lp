@@ -535,8 +535,8 @@
 
         .benefits__badge {
             display: inline-block;
-            background: rgba(255, 81, 0, 0.2);
-            color: var(--color-primary);
+            background: var(--color-primary);
+            color: var(--color-text-primary);
             padding: 8px 16px;
             border-radius: 6px;
             font-size: 12px;
@@ -1199,7 +1199,7 @@
                 <div class="header__content">
                     <div class="header__brand">
                         <a href="index.html" class="logo">
-                            <img src="bilder/Unleash Logo Weiß.svg" alt="UNLEASH" class="logo__image">
+                            <img src="bilder/logos/unleash.svg" alt="UNLEASH" class="logo__image">
                         </a>
 
                         <button class="mobile-menu-toggle" aria-label="Menu">
@@ -1341,40 +1341,40 @@
                     <!-- Position 1 -->
                     <div class="logo-slot">
                         <div class="client-logo active" data-set="1">
-                            <img src="bilder/cyclers.png" alt="Cyclers" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/cyclers.png" alt="Cyclers" style="max-height: 120px; max-width: 160px;" />
                         </div>
                         <div class="client-logo" data-set="2">
-                            <img src="bilder/charibee.png" alt="Charibee" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/charibee.png" alt="Charibee" style="max-height: 120px; max-width: 160px;" />
                         </div>
                     </div>
                     
                     <!-- Position 2 -->
                     <div class="logo-slot">
                         <div class="client-logo active" data-set="1">
-                            <img src="bilder/allianz.png" alt="Allianz" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/allianz.png" alt="Allianz" style="max-height: 120px; max-width: 160px;" />
                         </div>
                         <div class="client-logo" data-set="2">
-                            <img src="bilder/akad.svg.png" alt="Akad" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/akad.svg.png" alt="Akad" style="max-height: 120px; max-width: 160px;" />
                         </div>
                     </div>
                     
                     <!-- Position 3 -->
                     <div class="logo-slot">
                         <div class="client-logo active" data-set="1">
-                            <img src="bilder/obama.png" alt="Microsoft" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/obama.png" alt="Microsoft" style="max-height: 120px; max-width: 160px;" />
                         </div>
                         <div class="client-logo" data-set="2">
-                            <img src="bilder/nobu.png" alt="Nobuhiko Asaeda" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/nobu.png" alt="Nobuhiko Asaeda" style="max-height: 120px; max-width: 160px;" />
                         </div>
                     </div>
                     
                     <!-- Position 4 -->
                     <div class="logo-slot">
                         <div class="client-logo active" data-set="1">
-                            <img src="bilder/cuvee.svg" alt="La Cuveé" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/cuvee.svg" alt="La Cuveé" style="max-height: 120px; max-width: 160px;" />
                         </div>
                         <div class="client-logo" data-set="2">
-                            <img src="bilder/asano.png" alt="Asano" style="max-height: 120px; max-width: 160px;" />
+                            <img src="bilder/logos/asano.png" alt="Asano" style="max-height: 120px; max-width: 160px;" />
                         </div>
                     </div>
                 </div>
@@ -1463,7 +1463,7 @@
                     </p>
                 </div>
 
-                <form class="form" action="#" method="POST">
+                <form class="form" action="https://formspree.io/f/DEIN_FORM_ID" method="POST">
                     <p class="form__required-note">* Pflichtfeld</p>
                     
                     <div class="form__group">
@@ -1521,6 +1521,9 @@
                             placeholder="Erzähl uns, was du an deiner aktuellen Webseite verbessern möchtest..."
                         ></textarea>
                     </div>
+
+                    <!-- Honeypot für Spam-Schutz -->
+                    <input type="text" name="_gotcha" style="display:none">
 
                     <button type="submit" class="form__submit">
                         Kostenlose Demo anfragen
@@ -1646,26 +1649,6 @@
                     });
                 }
             });
-        });
-
-        // Form submission handler
-        document.querySelector('.form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Hier kannst du die Formulardaten verarbeiten
-            const formData = new FormData(this);
-            
-            // Beispiel: Formular-Daten in der Konsole ausgeben
-            console.log('Form submitted with data:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-            
-            // Erfolgs-Nachricht anzeigen
-            alert('Vielen Dank! Wir haben deine Anfrage erhalten und melden uns innerhalb von 24 Stunden bei dir.');
-            
-            // Formular zurücksetzen
-            this.reset();
         });
 
         // Scroll animation
