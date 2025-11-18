@@ -839,17 +839,33 @@
         }
 
         /* Form Success Message */
+        #formWrapper {
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+            max-height: 2000px; /* Ausreichend groß für das Formular */
+        }
+
+        #formWrapper.collapse {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
         .form__success {
             text-align: center;
             padding: 60px 40px;
             opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form__success.show {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0);
+        }
+
+        .form__success .demo-form__badge {
+            margin-bottom: 32px;
         }
 
         .form__success-icon {
@@ -893,15 +909,6 @@
             line-height: 1.7;
             max-width: 500px;
             margin: 0 auto;
-        }
-
-        /* Form hiding animation */
-        .form.hide {
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.5s ease;
-            max-height: 0;
-            overflow: hidden;
         }
 
         /* FAQ Section */
@@ -1521,87 +1528,90 @@
     <section class="demo-form" id="demo-formular">
         <div class="container">
             <div class="demo-form__container">
-                <div class="demo-form__header">
-                    <div class="demo-form__badge">KOSTENLOSE DEMO</div>
-                    <h2 class="demo-form__title">Fordere jetzt deine Demo-Webseite an</h2>
-                    <p class="demo-form__description">
-                        Fülle das Formular aus und wir erstellen dir eine kostenlose Demo-Version deiner Webseite
-                    </p>
+                <div id="formWrapper">
+                    <div class="demo-form__header">
+                        <div class="demo-form__badge">KOSTENLOSE DEMO</div>
+                        <h2 class="demo-form__title">Fordere jetzt deine Demo-Webseite an</h2>
+                        <p class="demo-form__description">
+                            Fülle das Formular aus und wir erstellen dir eine kostenlose Demo-Version deiner Webseite
+                        </p>
+                    </div>
+
+                    <form class="form" id="demoForm" action="https://formspree.io/f/mjklkybe" method="POST">
+                        <p class="form__required-note">* Pflichtfeld</p>
+                        
+                        <div class="form__group">
+                            <label for="name" class="form__label">Dein Name *</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form__input" 
+                                placeholder="Max Mustermann"
+                                required
+                            >
+                        </div>
+
+                        <div class="form__group">
+                            <label for="email" class="form__label">E-Mail-Adresse *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form__input" 
+                                placeholder="max@beispiel.de"
+                                required
+                            >
+                        </div>
+
+                        <div class="form__group form__group--full">
+                            <label for="website" class="form__label">Aktuelle Webseite (falls vorhanden)</label>
+                            <input 
+                                type="url" 
+                                id="website" 
+                                name="website" 
+                                class="form__input" 
+                                placeholder="https://deine-webseite.de"
+                            >
+                        </div>
+
+                        <div class="form__group form__group--full">
+                            <label for="company" class="form__label">Unternehmen</label>
+                            <input 
+                                type="text" 
+                                id="company" 
+                                name="company" 
+                                class="form__input" 
+                                placeholder="Dein Unternehmen"
+                            >
+                        </div>
+
+                        <div class="form__group form__group--full">
+                            <label for="message" class="form__label">Was möchtest du verbessern?</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                class="form__textarea" 
+                                placeholder="Erzähl uns, was du an deiner aktuellen Webseite verbessern möchtest..."
+                            ></textarea>
+                        </div>
+
+                        <!-- Honeypot für Spam-Schutz -->
+                        <input type="text" name="_gotcha" style="display:none">
+
+                        <button type="submit" class="form__submit">
+                            Kostenlose Demo anfragen
+                        </button>
+
+                        <p class="form__privacy">
+                            Mit dem Absenden stimmst du unserer <a href="datenschutz.html">Datenschutzerklärung</a> zu.
+                        </p>
+                    </form>
                 </div>
-
-                <form class="form" id="demoForm" action="https://formspree.io/f/mjklkybe" method="POST">
-                    <p class="form__required-note">* Pflichtfeld</p>
-                    
-                    <div class="form__group">
-                        <label for="name" class="form__label">Dein Name *</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            class="form__input" 
-                            placeholder="Max Mustermann"
-                            required
-                        >
-                    </div>
-
-                    <div class="form__group">
-                        <label for="email" class="form__label">E-Mail-Adresse *</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            class="form__input" 
-                            placeholder="max@beispiel.de"
-                            required
-                        >
-                    </div>
-
-                    <div class="form__group form__group--full">
-                        <label for="website" class="form__label">Aktuelle Webseite (falls vorhanden)</label>
-                        <input 
-                            type="url" 
-                            id="website" 
-                            name="website" 
-                            class="form__input" 
-                            placeholder="https://deine-webseite.de"
-                        >
-                    </div>
-
-                    <div class="form__group form__group--full">
-                        <label for="company" class="form__label">Unternehmen</label>
-                        <input 
-                            type="text" 
-                            id="company" 
-                            name="company" 
-                            class="form__input" 
-                            placeholder="Dein Unternehmen"
-                        >
-                    </div>
-
-                    <div class="form__group form__group--full">
-                        <label for="message" class="form__label">Was möchtest du verbessern?</label>
-                        <textarea 
-                            id="message" 
-                            name="message" 
-                            class="form__textarea" 
-                            placeholder="Erzähl uns, was du an deiner aktuellen Webseite verbessern möchtest..."
-                        ></textarea>
-                    </div>
-
-                    <!-- Honeypot für Spam-Schutz -->
-                    <input type="text" name="_gotcha" style="display:none">
-
-                    <button type="submit" class="form__submit">
-                        Kostenlose Demo anfragen
-                    </button>
-
-                    <p class="form__privacy">
-                        Mit dem Absenden stimmst du unserer <a href="datenschutz.html">Datenschutzerklärung</a> zu.
-                    </p>
-                </form>
 
                 <!-- Success Message -->
                 <div class="form__success" id="successMessage" style="display: none;">
+                    <div class="demo-form__badge">KOSTENLOSE DEMO</div>
                     <div class="form__success-icon">
                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"/>
@@ -1717,6 +1727,7 @@
         // AJAX Form Submission
         const demoForm = document.getElementById('demoForm');
         const successMessage = document.getElementById('successMessage');
+        const formWrapper = document.getElementById('formWrapper');
         
         if (demoForm) {
             demoForm.addEventListener('submit', async function(e) {
@@ -1743,19 +1754,19 @@
                     });
                     
                     if (response.ok) {
-                        // Formular ausblenden
-                        this.classList.add('hide');
+                        // Formular-Wrapper kollabiert von unten nach oben
+                        formWrapper.classList.add('collapse');
                         
-                        // Nach Animation Success Message zeigen
+                        // Nach Collapse-Animation Success Message zeigen
                         setTimeout(() => {
-                            this.style.display = 'none';
+                            formWrapper.style.display = 'none';
                             successMessage.style.display = 'block';
                             
-                            // Success Message einblenden
+                            // Success Message von oben nach unten einblenden
                             setTimeout(() => {
                                 successMessage.classList.add('show');
                             }, 50);
-                        }, 500);
+                        }, 800); // Wartet auf Collapse-Animation (0.8s)
                         
                     } else {
                         throw new Error('Formular-Submission fehlgeschlagen');
