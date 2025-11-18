@@ -838,6 +838,72 @@
             text-decoration: underline;
         }
 
+        /* Form Success Message */
+        .form__success {
+            text-align: center;
+            padding: 60px 40px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form__success.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .form__success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 81, 0, 0.1);
+            border: 3px solid var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            animation: successPulse 2s ease-in-out infinite;
+        }
+
+        .form__success-icon svg {
+            stroke: var(--color-primary);
+        }
+
+        @keyframes successPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 81, 0, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(255, 81, 0, 0);
+            }
+        }
+
+        .form__success-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 16px;
+        }
+
+        .form__success-text {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Form hiding animation */
+        .form.hide {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+
         /* FAQ Section */
         .faq-section {
             padding: 80px 0;
@@ -1463,7 +1529,7 @@
                     </p>
                 </div>
 
-                <form class="form" action="https://formspree.io/f/mjklkybe" method="POST">
+                <form class="form" id="demoForm" action="https://formspree.io/f/mjklkybe" method="POST">
                     <p class="form__required-note">* Pflichtfeld</p>
                     
                     <div class="form__group">
@@ -1533,6 +1599,20 @@
                         Mit dem Absenden stimmst du unserer <a href="datenschutz.html">Datenschutzerklärung</a> zu.
                     </p>
                 </form>
+
+                <!-- Success Message -->
+                <div class="form__success" id="successMessage" style="display: none;">
+                    <div class="form__success-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="form__success-title">Vielen Dank für deine Anfrage!</h3>
+                    <p class="form__success-text">
+                        Wir haben deine Demo-Anfrage erhalten und melden uns innerhalb von 24 Stunden bei dir.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -1633,6 +1713,65 @@
 
         // Initialize header state
         updateHeaderState();
+
+        // AJAX Form Submission
+        const demoForm = document.getElementById('demoForm');
+        const successMessage = document.getElementById('successMessage');
+        
+        if (demoForm) {
+            demoForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitButton = this.querySelector('.form__submit');
+                const originalText = submitButton.textContent;
+                
+                // Button Status ändern
+                submitButton.disabled = true;
+                submitButton.textContent = 'Wird gesendet...';
+                submitButton.style.opacity = '0.6';
+                
+                try {
+                    const formData = new FormData(this);
+                    
+                    // AJAX Request an Formspree
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        // Formular ausblenden
+                        this.classList.add('hide');
+                        
+                        // Nach Animation Success Message zeigen
+                        setTimeout(() => {
+                            this.style.display = 'none';
+                            successMessage.style.display = 'block';
+                            
+                            // Success Message einblenden
+                            setTimeout(() => {
+                                successMessage.classList.add('show');
+                            }, 50);
+                        }, 500);
+                        
+                    } else {
+                        throw new Error('Formular-Submission fehlgeschlagen');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut oder kontaktiere uns direkt.');
+                    
+                    // Button zurücksetzen bei Fehler
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                    submitButton.style.opacity = '1';
+                }
+            });
+        }
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
