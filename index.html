@@ -747,10 +747,56 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
         }
 
         .form__group--full {
             grid-column: 1 / -1;
+        }
+
+        .form__error {
+            font-size: 13px;
+            color: #FF6B6B;
+            margin-top: 4px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .form__error.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form__input.error,
+        .form__textarea.error {
+            border-color: #FF6B6B !important;
+            background: rgba(255, 107, 107, 0.05) !important;
+        }
+
+        .form__input.success,
+        .form__textarea.success {
+            border-color: #4CAF50 !important;
+        }
+
+        /* Autofill Detection */
+        @keyframes onAutoFillStart {
+            from { opacity: 0.99; }
+            to { opacity: 1; }
+        }
+
+        .form__input:-webkit-autofill {
+            animation-name: onAutoFillStart;
+            animation-duration: 1ms;
         }
 
         .form__label {
@@ -794,6 +840,30 @@
             -webkit-text-fill-color: var(--color-text-primary) !important;
             border-color: var(--color-primary) !important;
             transition: background-color 5000s ease-in-out 0s;
+            animation-name: onAutoFillStart;
+            animation-duration: 1ms;
+        }
+
+        /* Firefox Autofill */
+        .form__input:-moz-autofill {
+            border-color: var(--color-primary) !important;
+        }
+
+        /* Autofill Detection */
+        @keyframes onAutoFillStart {
+            0% { 
+                opacity: 0.99;
+                background-color: var(--color-bg-primary);
+            }
+            100% { 
+                opacity: 1;
+                background-color: var(--color-bg-primary);
+            }
+        }
+
+        .form__input:-webkit-autofill {
+            animation-name: onAutoFillStart;
+            animation-duration: 1ms;
         }
 
         .form__textarea {
@@ -1573,7 +1643,8 @@
                         </p>
                     </div>
 
-                    <form class="form" id="demoForm" action="https://formspree.io/f/mjklkybe" method="POST">
+                    <form class="form" id="demoForm" method="POST">
+                        <!-- Formspree deaktiviert für Tests -->
                         <p class="form__required-note">* Pflichtfeld</p>
                         
                         <div class="form__group">
@@ -1586,6 +1657,7 @@
                                 placeholder="Max Mustermann"
                                 required
                             >
+                            <span class="form__error" id="name-error"></span>
                         </div>
 
                         <div class="form__group">
@@ -1598,17 +1670,19 @@
                                 placeholder="max@beispiel.de"
                                 required
                             >
+                            <span class="form__error" id="email-error"></span>
                         </div>
 
                         <div class="form__group form__group--full">
                             <label for="website" class="form__label">Aktuelle Webseite (falls vorhanden)</label>
                             <input 
-                                type="url" 
+                                type="text" 
                                 id="website" 
                                 name="website" 
                                 class="form__input" 
-                                placeholder="https://deine-webseite.de"
+                                placeholder="deine-webseite.de"
                             >
+                            <span class="form__error" id="website-error"></span>
                         </div>
 
                         <div class="form__group form__group--full">
@@ -1760,14 +1834,166 @@
         // Initialize header state
         updateHeaderState();
 
-        // AJAX Form Submission
+        // AJAX Form Submission - TESTMODUS (Formspree deaktiviert)
         const demoForm = document.getElementById('demoForm');
         const successMessage = document.getElementById('successMessage');
         const formWrapper = document.getElementById('formWrapper');
         
+        // E-Mail Validierung Funktion
+        function validateEmail(email) {
+            // Prüft: @ vorhanden + Punkt nach @ + gültige Länderendung
+            const emailRegex = /^[^\s@]+@[^\s@]+\.(com|de|net|org|co|eu|at|ch|info|biz|io|us|uk|fr|nl|be|it|es)$/i;
+            return emailRegex.test(email);
+        }
+        
+        // Website Validierung Funktion
+        function validateWebsite(website) {
+            if (!website || website.trim() === '') {
+                return true; // Optional field - leer ist ok
+            }
+            // Prüft ob Länderendung vorhanden ist - mit oder ohne Pfad danach
+            // Akzeptiert: example.de, example.de/, example.de/seite, example.de/seite/unterseite
+            const websiteRegex = /\.(com|de|net|org|co|eu|at|ch|info|biz|io|us|uk|fr|nl|be|it|es)(\/.*)?$/i;
+            return websiteRegex.test(website.trim());
+        }
+        
+        // Zeige/Verstecke Error Message
+        function showError(inputId, message) {
+            const input = document.getElementById(inputId);
+            const errorElement = document.getElementById(inputId + '-error');
+            
+            input.classList.add('error');
+            input.classList.remove('success');
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+        
+        function clearError(inputId) {
+            const input = document.getElementById(inputId);
+            const errorElement = document.getElementById(inputId + '-error');
+            
+            input.classList.remove('error');
+            errorElement.classList.remove('show');
+            errorElement.textContent = '';
+        }
+        
+        function showSuccess(inputId) {
+            const input = document.getElementById(inputId);
+            input.classList.remove('error');
+            input.classList.add('success');
+        }
+        
         if (demoForm) {
+            // Name Validierung
+            const nameInput = document.getElementById('name');
+            
+            nameInput.addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    showError('name', 'Bitte gib deinen Namen ein');
+                } else if (this.value.trim().length < 2) {
+                    showError('name', 'Der Name muss mindestens 2 Zeichen lang sein');
+                } else {
+                    clearError('name');
+                    showSuccess('name');
+                }
+            });
+            
+            nameInput.addEventListener('input', function() {
+                if (this.value.trim().length >= 2) {
+                    clearError('name');
+                    showSuccess('name');
+                }
+            });
+            
+            // E-Mail Validierung
+            const emailInput = document.getElementById('email');
+            
+            emailInput.addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    showError('email', 'Bitte gib deine E-Mail-Adresse ein');
+                } else if (!this.value.includes('@')) {
+                    showError('email', 'Die E-Mail-Adresse muss ein @ enthalten');
+                } else if (!validateEmail(this.value)) {
+                    showError('email', 'Bitte gib eine gültige E-Mail mit Länderendung ein (z.B. .de, .com)');
+                } else {
+                    clearError('email');
+                    showSuccess('email');
+                }
+            });
+            
+            emailInput.addEventListener('input', function() {
+                // Entferne Fehler während dem Tippen wenn E-Mail gültig wird
+                // Und zeige Success bei gültiger Email
+                const value = this.value.trim();
+                if (value && validateEmail(value)) {
+                    clearError('email');
+                    showSuccess('email');
+                }
+            });
+            
+            // Website Validierung
+            const websiteInput = document.getElementById('website');
+            
+            websiteInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value && !validateWebsite(value)) {
+                    showError('website', 'Bitte gib eine gültige Webseite mit Länderendung ein (z.B. .de, .com)');
+                } else if (value) {
+                    clearError('website');
+                    showSuccess('website');
+                } else {
+                    clearError('website');
+                }
+            });
+            
+            websiteInput.addEventListener('input', function() {
+                const value = this.value.trim();
+                if (value && validateWebsite(value)) {
+                    clearError('website');
+                    showSuccess('website');
+                } else if (!value) {
+                    clearError('website');
+                }
+            });
+            
             demoForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+                
+                // Validiere alle Felder vor dem Absenden
+                let hasErrors = false;
+                
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const website = websiteInput.value.trim();
+                
+                if (!name) {
+                    showError('name', 'Bitte gib deinen Namen ein');
+                    hasErrors = true;
+                } else if (name.length < 2) {
+                    showError('name', 'Der Name muss mindestens 2 Zeichen lang sein');
+                    hasErrors = true;
+                }
+                
+                if (!email) {
+                    showError('email', 'Bitte gib deine E-Mail-Adresse ein');
+                    hasErrors = true;
+                } else if (!email.includes('@')) {
+                    showError('email', 'Die E-Mail-Adresse muss ein @ enthalten');
+                    hasErrors = true;
+                } else if (!validateEmail(email)) {
+                    showError('email', 'Bitte gib eine gültige E-Mail mit Länderendung ein (z.B. .de, .com)');
+                    hasErrors = true;
+                }
+                
+                // Website ist optional, aber wenn ausgefüllt muss es gültig sein
+                if (website && !validateWebsite(website)) {
+                    showError('website', 'Bitte gib eine gültige Webseite mit Länderendung ein (z.B. .de, .com)');
+                    hasErrors = true;
+                }
+                
+                if (hasErrors) {
+                    return;
+                }
                 
                 const submitButton = this.querySelector('.form__submit');
                 const originalText = submitButton.textContent;
@@ -1777,10 +2003,47 @@
                 submitButton.textContent = 'Wird gesendet...';
                 submitButton.style.opacity = '0.6';
                 
+                // ===== TESTMODUS - FORMSPREE DEAKTIVIERT =====
+                console.log('🧪 TEST MODE: Formular würde folgende Daten senden:', {
+                    name: name,
+                    email: email,
+                    website: website,
+                    company: document.getElementById('company').value,
+                    message: document.getElementById('message').value
+                });
+                
+                // Simuliere erfolgreichen Submit nach kurzer Verzögerung
+                setTimeout(() => {
+                    // Kleine Verzögerung für besseres UX
+                    setTimeout(() => {
+                        // Formular-Wrapper kollabiert von unten nach oben
+                        formWrapper.classList.add('collapse');
+                    }, 300);
+                    
+                    // Nach Collapse-Animation Success Message zeigen
+                    setTimeout(() => {
+                        formWrapper.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        
+                        // Success Message mit staggered animation
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                successMessage.classList.add('show');
+                            }, 50);
+                        });
+                    }, 1300);
+                }, 500);
+                
+                /* 
+                ===== ORIGINAL FORMSPREE CODE - AUSKOMMENTIERT =====
+                Um Formspree wieder zu aktivieren:
+                1. Füge action="https://formspree.io/f/mjklkybe" zum <form> Tag hinzu
+                2. Kommentiere den obigen Testcode aus
+                3. Entferne die Kommentare um den folgenden Code:
+                
                 try {
                     const formData = new FormData(this);
                     
-                    // AJAX Request an Formspree
                     const response = await fetch(this.action, {
                         method: 'POST',
                         body: formData,
@@ -1790,46 +2053,77 @@
                     });
                     
                     if (response.ok) {
-                        // Kleine Verzögerung für besseres UX
                         setTimeout(() => {
-                            // Formular-Wrapper kollabiert von unten nach oben
                             formWrapper.classList.add('collapse');
                         }, 300);
                         
-                        // Nach Collapse-Animation Success Message zeigen
                         setTimeout(() => {
                             formWrapper.style.display = 'none';
                             successMessage.style.display = 'block';
                             
-                            // Success Message mit staggered animation
                             requestAnimationFrame(() => {
                                 setTimeout(() => {
                                     successMessage.classList.add('show');
                                 }, 50);
                             });
-                        }, 1300); // Wartet auf Collapse-Animation (1s) + Buffer (0.3s)
-                        
+                        }, 1300);
                     } else {
                         throw new Error('Formular-Submission fehlgeschlagen');
                     }
-                    
                 } catch (error) {
                     console.error('Error:', error);
                     alert('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut oder kontaktiere uns direkt.');
                     
-                    // Button zurücksetzen bei Fehler
                     submitButton.disabled = false;
                     submitButton.textContent = originalText;
                     submitButton.style.opacity = '1';
                 }
+                */
             });
         }
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                
+                // TEST MODUS: Bei Klick auf #demo-formular direkt Dankesseite zeigen
+                if (href === '#demo-formular') {
+                    e.preventDefault();
+                    
+                    // Scroll zum Formular
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Nach dem Scrollen: Zeige direkt die Dankesseite
+                        setTimeout(() => {
+                            formWrapper.classList.add('collapse');
+                            
+                            setTimeout(() => {
+                                formWrapper.style.display = 'none';
+                                successMessage.style.display = 'block';
+                                
+                                requestAnimationFrame(() => {
+                                    setTimeout(() => {
+                                        successMessage.classList.add('show');
+                                    }, 50);
+                                });
+                            }, 1000);
+                        }, 800);
+                    }
+                    return;
+                }
+                
+                // Normales Smooth Scrolling für andere Links
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const target = document.querySelector(href);
                 if (target) {
                     const headerHeight = document.querySelector('.header').offsetHeight;
                     const targetPosition = target.offsetTop - headerHeight - 20;
