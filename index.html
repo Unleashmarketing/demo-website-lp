@@ -831,41 +831,6 @@
             background: var(--color-bg-primary);
         }
 
-        /* Autocomplete / Autofill Styling */
-        .form__input:-webkit-autofill,
-        .form__input:-webkit-autofill:hover,
-        .form__input:-webkit-autofill:focus,
-        .form__input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 1000px var(--color-bg-primary) inset !important;
-            -webkit-text-fill-color: var(--color-text-primary) !important;
-            border-color: var(--color-primary) !important;
-            transition: background-color 5000s ease-in-out 0s;
-            animation-name: onAutoFillStart;
-            animation-duration: 1ms;
-        }
-
-        /* Firefox Autofill */
-        .form__input:-moz-autofill {
-            border-color: var(--color-primary) !important;
-        }
-
-        /* Autofill Detection */
-        @keyframes onAutoFillStart {
-            0% { 
-                opacity: 0.99;
-                background-color: var(--color-bg-primary);
-            }
-            100% { 
-                opacity: 1;
-                background-color: var(--color-bg-primary);
-            }
-        }
-
-        .form__input:-webkit-autofill {
-            animation-name: onAutoFillStart;
-            animation-duration: 1ms;
-        }
-
         .form__textarea {
             resize: vertical;
             min-height: 120px;
@@ -1652,7 +1617,7 @@
                         </p>
                     </div>
 
-                    <form class="form" id="demoForm" method="POST">
+                    <form class="form" id="demoForm" method="POST" autocomplete="off">
                         <!-- Formspree deaktiviert für Tests -->
                         <p class="form__required-note">* Pflichtfeld</p>
                         
@@ -1664,6 +1629,7 @@
                                 name="name" 
                                 class="form__input" 
                                 placeholder="Max Mustermann"
+                                autocomplete="off"
                                 required
                             >
                             <span class="form__error" id="name-error"></span>
@@ -1677,6 +1643,7 @@
                                 name="email" 
                                 class="form__input" 
                                 placeholder="max@beispiel.de"
+                                autocomplete="off"
                                 required
                             >
                             <span class="form__error" id="email-error"></span>
@@ -1690,6 +1657,7 @@
                                 name="website" 
                                 class="form__input" 
                                 placeholder="deine-webseite.de"
+                                autocomplete="off"
                             >
                             <span class="form__error" id="website-error"></span>
                         </div>
@@ -1702,6 +1670,7 @@
                                 name="company" 
                                 class="form__input" 
                                 placeholder="Dein Unternehmen"
+                                autocomplete="off"
                             >
                         </div>
 
@@ -1712,6 +1681,7 @@
                                 name="message" 
                                 class="form__textarea" 
                                 placeholder="Erzähl uns, was du an deiner aktuellen Webseite verbessern möchtest..."
+                                autocomplete="off"
                             ></textarea>
                         </div>
 
