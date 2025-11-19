@@ -910,39 +910,48 @@
 
         /* Form Success Message */
         #formWrapper {
-            overflow: hidden;
-            transition: max-height 1s cubic-bezier(0.65, 0, 0.35, 1), 
-                        opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1),
-                        transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            max-height: 2000px;
+            transition: opacity 0.6s ease, transform 0.6s ease;
             transform-origin: top;
         }
 
         #formWrapper.collapse {
-            max-height: 0;
             opacity: 0;
-            transform: scaleY(0.95);
-            margin-bottom: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
         }
 
         .form__success {
             text-align: center;
             padding: 60px 40px;
             opacity: 0;
-            transform: translateY(-40px) scale(0.95);
-            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(20px);
+            transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
         }
 
         .form__success.show {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
+        }
+
+        .demo-form__container {
+            position: relative;
+            min-height: 600px;
+            transition: min-height 0.6s ease;
+        }
+
+        .demo-form__container.show-success {
+            min-height: 400px;
         }
 
         .form__success .demo-form__badge {
             margin-bottom: 32px;
             opacity: 0;
             transform: translateY(-10px);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+            transition: all 0.5s ease 0.5s;
         }
 
         .form__success.show .demo-form__badge {
@@ -961,14 +970,14 @@
             justify-content: center;
             margin: 0 auto 32px;
             opacity: 0;
-            transform: scale(0);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+            transform: scale(0.8);
+            transition: all 0.5s ease 0.6s;
         }
 
         .form__success.show .form__success-icon {
             opacity: 1;
             transform: scale(1);
-            animation: successPulse 2s ease-in-out infinite 1.2s;
+            animation: successPulse 2s ease-in-out infinite 1.5s;
         }
 
         .form__success-icon svg {
@@ -992,8 +1001,8 @@
             color: var(--color-text-primary);
             margin-bottom: 16px;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s;
+            transform: translateY(10px);
+            transition: all 0.5s ease 0.7s;
         }
 
         .form__success.show .form__success-title {
@@ -1008,8 +1017,8 @@
             max-width: 500px;
             margin: 0 auto;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s;
+            transform: translateY(10px);
+            transition: all 0.5s ease 0.8s;
         }
 
         .form__success.show .form__success-text {
@@ -2057,24 +2066,24 @@
                 
                 // Simuliere erfolgreichen Submit nach kurzer Verzögerung
                 setTimeout(() => {
-                    // Kleine Verzögerung für besseres UX
-                    setTimeout(() => {
-                        // Formular-Wrapper kollabiert von unten nach oben
-                        formWrapper.classList.add('collapse');
-                    }, 300);
+                    const container = document.querySelector('.demo-form__container');
                     
-                    // Nach Collapse-Animation Success Message zeigen
+                    // Starte gleichzeitige Animationen
+                    formWrapper.classList.add('collapse');
+                    successMessage.style.display = 'block';
+                    container.classList.add('show-success');
+                    
+                    // Success Message einblenden
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            successMessage.classList.add('show');
+                        }, 100);
+                    });
+                    
+                    // Formular nach Animation ausblenden
                     setTimeout(() => {
                         formWrapper.style.display = 'none';
-                        successMessage.style.display = 'block';
-                        
-                        // Success Message mit staggered animation
-                        requestAnimationFrame(() => {
-                            setTimeout(() => {
-                                successMessage.classList.add('show');
-                            }, 50);
-                        });
-                    }, 1300);
+                    }, 600);
                 }, 500);
                 
                 /* 
