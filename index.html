@@ -783,22 +783,6 @@
             background: rgba(255, 107, 107, 0.05) !important;
         }
 
-        .form__input.success,
-        .form__textarea.success {
-            border-color: #4CAF50 !important;
-        }
-
-        /* Autofill Detection */
-        @keyframes onAutoFillStart {
-            from { opacity: 0.99; }
-            to { opacity: 1; }
-        }
-
-        .form__input:-webkit-autofill {
-            animation-name: onAutoFillStart;
-            animation-duration: 1ms;
-        }
-
         .form__label {
             font-size: 14px;
             font-weight: 500;
@@ -829,6 +813,24 @@
         .form__textarea:not(:placeholder-shown) {
             border-color: var(--color-primary);
             background: var(--color-bg-primary);
+        }
+
+        /* Autofill Styling - Verhindert weißen Hintergrund */
+        .form__input:-webkit-autofill,
+        .form__input:-webkit-autofill:hover,
+        .form__input:-webkit-autofill:focus,
+        .form__input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px var(--color-bg-primary) inset !important;
+            -webkit-text-fill-color: var(--color-text-primary) !important;
+            border-color: var(--color-primary) !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Firefox Autofill */
+        .form__input:-moz-autofill {
+            background-color: var(--color-bg-primary) !important;
+            color: var(--color-text-primary) !important;
+            border-color: var(--color-primary) !important;
         }
 
         .form__textarea {
@@ -1617,7 +1619,7 @@
                         </p>
                     </div>
 
-                    <form class="form" id="demoForm" method="POST" autocomplete="off">
+                    <form class="form" id="demoForm" method="POST">
                         <!-- Formspree deaktiviert für Tests -->
                         <p class="form__required-note">* Pflichtfeld</p>
                         
@@ -1629,7 +1631,6 @@
                                 name="name" 
                                 class="form__input" 
                                 placeholder="Max Mustermann"
-                                autocomplete="off"
                                 required
                             >
                             <span class="form__error" id="name-error"></span>
@@ -1643,7 +1644,6 @@
                                 name="email" 
                                 class="form__input" 
                                 placeholder="max@beispiel.de"
-                                autocomplete="off"
                                 required
                             >
                             <span class="form__error" id="email-error"></span>
@@ -1657,7 +1657,6 @@
                                 name="website" 
                                 class="form__input" 
                                 placeholder="deine-webseite.de"
-                                autocomplete="off"
                             >
                             <span class="form__error" id="website-error"></span>
                         </div>
@@ -1670,7 +1669,6 @@
                                 name="company" 
                                 class="form__input" 
                                 placeholder="Dein Unternehmen"
-                                autocomplete="off"
                             >
                         </div>
 
@@ -1681,7 +1679,6 @@
                                 name="message" 
                                 class="form__textarea" 
                                 placeholder="Erzähl uns, was du an deiner aktuellen Webseite verbessern möchtest..."
-                                autocomplete="off"
                             ></textarea>
                         </div>
 
@@ -1856,12 +1853,6 @@
             errorElement.textContent = '';
         }
         
-        function showSuccess(inputId) {
-            const input = document.getElementById(inputId);
-            input.classList.remove('error');
-            input.classList.add('success');
-        }
-        
         if (demoForm) {
             // Name Validierung
             const nameInput = document.getElementById('name');
@@ -1874,7 +1865,6 @@
                     showError('name', 'Der Name muss mindestens 2 Zeichen lang sein');
                 } else {
                     clearError('name');
-                    showSuccess('name');
                 }
             });
             
@@ -1882,7 +1872,6 @@
                 const value = this.value.trim();
                 if (value.length >= 2) {
                     clearError('name');
-                    showSuccess('name');
                 }
             });
             
@@ -1899,7 +1888,6 @@
                     showError('email', 'Bitte gib eine gültige E-Mail mit Länderendung ein (z.B. .de, .com)');
                 } else {
                     clearError('email');
-                    showSuccess('email');
                 }
             });
             
@@ -1907,7 +1895,6 @@
                 const value = this.value.trim();
                 if (value && validateEmail(value)) {
                     clearError('email');
-                    showSuccess('email');
                 }
             });
             
@@ -1918,9 +1905,6 @@
                 const value = this.value.trim();
                 if (value && !validateWebsite(value)) {
                     showError('website', 'Bitte gib eine gültige Webseite mit Länderendung ein (z.B. .de, .com)');
-                } else if (value && validateWebsite(value)) {
-                    clearError('website');
-                    showSuccess('website');
                 } else {
                     clearError('website');
                 }
@@ -1928,55 +1912,16 @@
             
             websiteInput.addEventListener('input', function() {
                 const value = this.value.trim();
-                if (value && validateWebsite(value)) {
-                    clearError('website');
-                    showSuccess('website');
-                } else if (!value) {
+                if (!value || validateWebsite(value)) {
                     clearError('website');
                 }
             });
             
-            // Unternehmen - Zeige grün wenn ausgefüllt (keine Validierung)
+            // Unternehmen - Keine Validierung
             const companyInput = document.getElementById('company');
             
-            companyInput.addEventListener('blur', function() {
-                const value = this.value.trim();
-                if (value) {
-                    showSuccess('company');
-                } else {
-                    companyInput.classList.remove('success');
-                }
-            });
-            
-            companyInput.addEventListener('input', function() {
-                const value = this.value.trim();
-                if (value) {
-                    showSuccess('company');
-                } else {
-                    companyInput.classList.remove('success');
-                }
-            });
-            
-            // Nachricht - Zeige grün wenn ausgefüllt (keine Validierung)
+            // Nachricht - Keine Validierung
             const messageInput = document.getElementById('message');
-            
-            messageInput.addEventListener('blur', function() {
-                const value = this.value.trim();
-                if (value) {
-                    showSuccess('message');
-                } else {
-                    messageInput.classList.remove('success');
-                }
-            });
-            
-            messageInput.addEventListener('input', function() {
-                const value = this.value.trim();
-                if (value) {
-                    showSuccess('message');
-                } else {
-                    messageInput.classList.remove('success');
-                }
-            });
             
             demoForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
