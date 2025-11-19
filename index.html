@@ -1663,7 +1663,7 @@
                         <div class="form__group">
                             <label for="email" class="form__label">E-Mail-Adresse *</label>
                             <input 
-                                type="email" 
+                                type="text" 
                                 id="email" 
                                 name="email" 
                                 class="form__input" 
@@ -1888,9 +1888,10 @@
             const nameInput = document.getElementById('name');
             
             nameInput.addEventListener('blur', function() {
-                if (!this.value.trim()) {
+                const value = this.value.trim();
+                if (!value) {
                     showError('name', 'Bitte gib deinen Namen ein');
-                } else if (this.value.trim().length < 2) {
+                } else if (value.length < 2) {
                     showError('name', 'Der Name muss mindestens 2 Zeichen lang sein');
                 } else {
                     clearError('name');
@@ -1899,7 +1900,8 @@
             });
             
             nameInput.addEventListener('input', function() {
-                if (this.value.trim().length >= 2) {
+                const value = this.value.trim();
+                if (value.length >= 2) {
                     clearError('name');
                     showSuccess('name');
                 }
@@ -1909,11 +1911,12 @@
             const emailInput = document.getElementById('email');
             
             emailInput.addEventListener('blur', function() {
-                if (!this.value.trim()) {
+                const value = this.value.trim();
+                if (!value) {
                     showError('email', 'Bitte gib deine E-Mail-Adresse ein');
-                } else if (!this.value.includes('@')) {
+                } else if (!value.includes('@')) {
                     showError('email', 'Die E-Mail-Adresse muss ein @ enthalten');
-                } else if (!validateEmail(this.value)) {
+                } else if (!validateEmail(value)) {
                     showError('email', 'Bitte gib eine gültige E-Mail mit Länderendung ein (z.B. .de, .com)');
                 } else {
                     clearError('email');
@@ -1922,8 +1925,6 @@
             });
             
             emailInput.addEventListener('input', function() {
-                // Entferne Fehler während dem Tippen wenn E-Mail gültig wird
-                // Und zeige Success bei gültiger Email
                 const value = this.value.trim();
                 if (value && validateEmail(value)) {
                     clearError('email');
@@ -1938,7 +1939,7 @@
                 const value = this.value.trim();
                 if (value && !validateWebsite(value)) {
                     showError('website', 'Bitte gib eine gültige Webseite mit Länderendung ein (z.B. .de, .com)');
-                } else if (value) {
+                } else if (value && validateWebsite(value)) {
                     clearError('website');
                     showSuccess('website');
                 } else {
@@ -1953,6 +1954,48 @@
                     showSuccess('website');
                 } else if (!value) {
                     clearError('website');
+                }
+            });
+            
+            // Unternehmen - Zeige grün wenn ausgefüllt (keine Validierung)
+            const companyInput = document.getElementById('company');
+            
+            companyInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value) {
+                    showSuccess('company');
+                } else {
+                    companyInput.classList.remove('success');
+                }
+            });
+            
+            companyInput.addEventListener('input', function() {
+                const value = this.value.trim();
+                if (value) {
+                    showSuccess('company');
+                } else {
+                    companyInput.classList.remove('success');
+                }
+            });
+            
+            // Nachricht - Zeige grün wenn ausgefüllt (keine Validierung)
+            const messageInput = document.getElementById('message');
+            
+            messageInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value) {
+                    showSuccess('message');
+                } else {
+                    messageInput.classList.remove('success');
+                }
+            });
+            
+            messageInput.addEventListener('input', function() {
+                const value = this.value.trim();
+                if (value) {
+                    showSuccess('message');
+                } else {
+                    messageInput.classList.remove('success');
                 }
             });
             
