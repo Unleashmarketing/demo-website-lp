@@ -1303,8 +1303,9 @@
         min-height: auto !important;
     }
 
+    /* WICHTIG: Grid auf 1 Spalte setzen */
     .form {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 20px;
     }
 
@@ -1313,13 +1314,13 @@
     }
 
     .form__required-note {
-        grid-column: 1;
+        grid-column: 1 !important;
         text-align: left;
         margin-bottom: 4px;
     }
 
     .form__group--full {
-        grid-column: 1;
+        grid-column: 1 !important;
     }
 
     .form__label {
@@ -1330,6 +1331,7 @@
     .form__textarea {
         padding: 12px 14px;
         font-size: 16px; /* Verhindert Zoom auf iOS */
+        width: 100%;
     }
 
     .form__textarea {
@@ -1340,11 +1342,12 @@
         padding: 14px 28px;
         font-size: 15px;
         margin-top: 4px;
-        grid-column: 1;
+        grid-column: 1 !important;
+        width: 100%;
     }
 
     .form__privacy {
-        grid-column: 1;
+        grid-column: 1 !important;
         font-size: 12px;
         line-height: 1.5;
         margin-top: 4px;
