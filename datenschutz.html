@@ -135,7 +135,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
             gap: 24px;
             padding: 12px 0;
             position: relative;
@@ -144,31 +143,12 @@
         .header__brand {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .header__center {
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            width: fit-content;
-            height: fit-content;
-            display: none;
         }
 
         .header__actions {
-            display: none;
+            display: flex;
             align-items: center;
-            width: 100%;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 24px;
-            background: var(--color-bg-primary);
-            border: 1px solid #1E1E1E;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            gap: 24px;
         }
 
         .logo {
@@ -188,35 +168,6 @@
         .logo:hover .logo__image,
         .logo:hover .footer-logo__image {
             transform: scale(1.05);
-        }
-
-        .nav__list {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            font-size: 14px;
-        }
-
-        .nav__item {
-            position: relative;
-        }
-
-        .nav__link {
-            color: var(--color-text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s ease;
-        }
-
-        .nav__link:hover {
-            color: var(--color-text-primary);
         }
 
         .nav__button {
@@ -247,147 +198,14 @@
         .nav__desktop-buttons {
             display: flex;
             gap: 12px;
-            width: 100%;
-            flex-direction: column;
         }
 
         .nav__scrolled-button {
             display: none;
         }
 
-        .mobile-menu-toggle {
-            position: relative;
-            z-index: 20;
-            margin: -10px -16px -10px -10px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            display: block;
-        }
-
-        .menu-icon {
-            display: block;
-            width: 24px;
-            height: 24px;
-            position: relative;
-        }
-
-        .menu-icon::before,
-        .menu-icon::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 24px;
-            height: 2px;
-            background: var(--color-text-primary);
-            transition: all 0.2s ease;
-        }
-
-        .menu-icon::before {
-            top: 7px;
-        }
-
-        .menu-icon::after {
-            top: 15px;
-        }
-
-        .close-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-180deg) scale(0);
-            font-size: 24px;
-            color: var(--color-text-primary);
-            transition: all 0.2s ease;
-            opacity: 0;
-        }
-
-        /* Mobile menu */
-        .mobile-menu {
-            display: none;
-            width: 100%;
-            background: var(--color-bg-primary);
-            border: 1px solid #1E1E1E;
-            border-radius: 24px;
-            padding: 24px;
-            margin-top: 24px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .mobile-menu__content {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
-
-        .mobile-nav__list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .mobile-nav__item {
-            position: relative;
-        }
-
-        .mobile-nav__link {
-            color: var(--color-text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: color 0.15s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: transparent;
-            border: none; 
-            gap: 10px;
-        }
-
-        .mobile-nav__link:hover {
-            color: var(--color-text-primary);
-        }
-
         /* Desktop Navigation */
-        @media (min-width: 768px) {
-            .header__brand {
-                width: auto;
-            }
-            
-            .header__center {
-                display: block;
-            }
-            
-            .header__actions {
-                display: flex;
-                width: fit-content;
-                gap: 24px;
-                margin: 0;
-                background: transparent;
-                border: none;
-                border-radius: 0;
-                padding: 0;
-                box-shadow: none;
-                flex-direction: row;
-            }
-            
-            .nav__desktop-buttons {
-                flex-direction: row;
-                width: auto;
-            }
-            
-            .mobile-menu-toggle {
-                display: none;
-            }
-            
-            .mobile-menu {
-                display: none !important;
-            }
-            
+        @media (min-width: 769px) {
             /* Scrolled state for desktop */
             .header[data-state="active"] .nav__desktop-buttons {
                 display: none;
@@ -398,20 +216,13 @@
             }
         }
 
-        /* Active mobile menu state - only when manually triggered */
-        .header[data-state="active"] .mobile-menu.manual-open {
-            display: block;
-        }
-
-        .header[data-state="active"] .menu-icon::before,
-        .header[data-state="active"] .menu-icon::after {
-            opacity: 0;
-            transform: rotate(180deg) scale(0);
-        }
-
-        .header[data-state="active"] .close-icon {
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            opacity: 1;
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .nav__button {
+                font-size: 13px;
+                height: 32px;
+                padding: 0 12px;
+            }
         }
 
         /* Main Content */
@@ -697,10 +508,6 @@
                 max-width: calc(100% - 16px);
             }
             
-            .mobile-menu-toggle {
-                display: block;
-            }
-            
             .page-header {
                 padding: 60px 0 40px;
             }
@@ -763,11 +570,6 @@
                             <a href="index.html" class="logo">
                                 <img src="bilder/logos/unleash.svg" alt="UNLEASH" class="logo__image">
                             </a>
-
-                            <button class="mobile-menu-toggle" aria-label="Menu">
-                                <span class="menu-icon"></span>
-                                <span class="close-icon">×</span>
-                            </button>
                         </div>
 
                         <div class="header__actions">
@@ -775,20 +577,6 @@
                                 <a href="kontakt.html" class="nav__button nav__button--primary">Projekt anfragen</a>
                             </div>
                             <div class="nav__scrolled-button">
-                                <a href="kontakt.html" class="nav__button nav__button--primary">Projekt anfragen</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Menu -->
-                    <div class="mobile-menu">
-                        <div class="mobile-menu__content">
-                            <ul class="mobile-nav__list">
-                                <li class="mobile-nav__item"><a href="team.html" class="mobile-nav__link">Unser Team</a></li>
-                                <li class="mobile-nav__item"><a href="services.html" class="mobile-nav__link">Leistungen</a></li>
-                                <li class="mobile-nav__item"><a href="projekte.html" class="mobile-nav__link">Projekte</a></li>
-                            </ul>
-                            <div class="mobile-nav__buttons">
                                 <a href="kontakt.html" class="nav__button nav__button--primary">Projekt anfragen</a>
                             </div>
                         </div>
@@ -1071,13 +859,10 @@
     </div>
 
     <script>
-        // Header scroll effect (same as index.html)
-        let isScrolled = false;
-        let menuState = false;
-
+        // Header scroll effect - only for desktop
         function updateHeaderState() {
             const header = document.querySelector('.header');
-            isScrolled = window.scrollY > 50;
+            const isScrolled = window.scrollY > 50;
             
             // Only apply scrolled state on desktop
             if (window.innerWidth >= 769) {
@@ -1087,54 +872,12 @@
                     header.setAttribute('data-state', 'inactive');
                 }
             } else {
-                // On mobile, always keep inactive state unless menu is open
-                if (!menuState) {
-                    header.setAttribute('data-state', 'inactive');
-                }
+                // On mobile, always keep inactive state
+                header.setAttribute('data-state', 'inactive');
             }
         }
 
         window.addEventListener('scroll', updateHeaderState);
-
-        // Mobile menu toggle (same as index.html)
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const header = document.querySelector('.header');
-
-        function toggleMobileMenu() {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            menuState = !menuState;
-            
-            if (menuState) {
-                header.setAttribute('data-state', 'active');
-                mobileMenu.classList.add('manual-open');
-            } else {
-                // On mobile, always return to inactive when closing menu
-                if (window.innerWidth < 769) {
-                    header.setAttribute('data-state', 'inactive');
-                } else {
-                    header.setAttribute('data-state', isScrolled ? 'active' : 'inactive');
-                }
-                mobileMenu.classList.remove('manual-open');
-            }
-        }
-
-        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-
-        // Close mobile menu when clicking nav links
-        document.querySelectorAll('.mobile-nav__link:not(button)').forEach(link => {
-            link.addEventListener('click', () => {
-                const mobileMenu = document.querySelector('.mobile-menu');
-                menuState = false;
-                
-                // On mobile, always return to inactive when closing menu
-                if (window.innerWidth < 769) {
-                    header.setAttribute('data-state', 'inactive');
-                } else {
-                    header.setAttribute('data-state', isScrolled ? 'active' : 'inactive');
-                }
-                mobileMenu.classList.remove('manual-open');
-            });
-        });
 
         // Initialize header state
         updateHeaderState();
